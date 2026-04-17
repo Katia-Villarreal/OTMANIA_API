@@ -10,4 +10,11 @@ export const login = async (req, res) => {
     const salt = result.rows[0].password.substring(0, process.env.SALT_SIZE);
     const hashed = hash(Password, salt);
     console.log(result.rows[0]);
+
+    const salted_hashed = salt + hashed;
+    if(result.rows[0].password == salted_hashed){
+        res.status(200).json({isLogin:true, user:result.rows[0]});
+    }else{
+        res.status(404).json({isLogin:false, user:{}});
+    }
 }
