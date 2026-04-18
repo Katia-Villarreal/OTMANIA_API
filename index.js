@@ -16,4 +16,4 @@ app.use(usersRoutes);
 app.use(hminigameRoutes);
 app.use(gamesessionRoutes);
 
-app.listen(6000, console.log("http://localhost:6000"));
+app.listen(3000, console.log("http://localhost:3000"));
