@@ -1,5 +1,5 @@
 import { db_connect } from "../Utils/db.js";
-import { getSalt, hash } from "../Utils/hash.js";
+import { getSalt, hashPassword } from "../Utils/hash.js";
 
 export const getUsers = async (req, res) => {
     const sql = db_connect();
@@ -21,10 +21,9 @@ export const PostUser = async (req, res) => {
     const sql = db_connect();
     const {FirstName, LastName, Nickname, Email, Password, Country, IDUserType} = req.body;
     const salt = getSalt(parseInt(process.env.SALT_SIZE));
-    const hashed = hash(Password, salt);
-    const salted_hash = salt + hashed;
+    const hashed = hashPassword(Password);
     const text = "INSERT INTO Users (FirstName, LastName, Nickname, Email, Password, Country, IDUserType) VALUES ($1, $2, $3, $4, $5, $6, $7)";
-    const values = [FirstName, LastName, Nickname, Email, salted_hash, Country, IDUserType];
+    const values = [FirstName, LastName, Nickname, Email, hashed, Country, IDUserType];
     const result = await sql.query(text, values);
     res.json(result)
 }
