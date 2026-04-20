@@ -20,6 +20,6 @@ export const login = async (req, res) => {
     if(isLogin){
         res.status(200).json({isLogin:true, user:user});
     }else{
-        res.status(404).json({isLogin:false, user:{}});
+        res.status(401).json({isLogin:false, user:{}});
     }
 }
