@@ -37,3 +37,11 @@ export const PutUser = async (req, res) => {
     const result = await sql.query(text, values);
     res.json(result);
 }
+
+export const getFullProfile = async (req, res) => {
+    const sql = db_connect();
+    const { id } = req.params;
+    const text = "SELECT u.Nickname, u.Country, COALESCE(SUM(gs.TotalScore), 0) AS total_score, COUNT(gs.IDSession) AS games_played, (SELECT errorcount FROM minigamehistory WHERE idsession = MAX(gs.IDSession) LIMIT 1) AS last_errors, (SELECT scoregained FROM minigamehistory WHERE idsession = MAX(gs.IDSession) LIMIT 1) AS last_score, MAX(gs.GameDays) AS last_days, MAX(gs.StartTime) AS last_time FROM Users u LEFT JOIN GameSessions gs ON u.IDUser = gs.IDPlayer WHERE u.IDUser = $1 GROUP BY u.IDUser, u.Nickname, u.Country";
+    const result = await sql.query(text, [id]);
+    res.json(result.rows[0]);
+}
