@@ -16,7 +16,7 @@ const transporter = nodemailer.createTransport({
 
 // Determine user type based on email and company domain
 function getUserType(email, companyExists) {
-    const admins = ["admin@rockwell.com"];
+    const admins = ["admin@rockwellautomation.com"];
 
     if (admins.includes(email.toLowerCase())) return 1;
     if (companyExists) return 2;
@@ -38,7 +38,7 @@ export const sendCode = async (req, res) => {
             return res.status(400).json({ message: "Invalid email" });
         }
         const domain = emailNormalized.split("@")[1];
-        const companyExists = domain === "rockwell.com";
+        const companyExists = domain === "rockwellautomation.com";
 
         const userType = getUserType(emailNormalized, companyExists);
 
