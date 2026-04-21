@@ -4,6 +4,6 @@ const router = Router();
 
 router.get("/gamesession", getGameSessionUsers);
 router.get("/gamesession/:id", getGameSessionUser);
-router.post("/gamesession", createGameSession);
+router.post("/creategamesession", createGameSession);
 
 export default router;

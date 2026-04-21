@@ -20,12 +20,10 @@ export const getUser = async (req, res) => {
 export const PostUser = async (req, res) => {
     const sql = db_connect();
     const {FirstName, LastName, Nickname, Email, Password, Country, IDUserType} = req.body;
-    const salt = getSalt(parseInt(process.env.SALT_SIZE));
-    const hashed = hashPassword(Password);
     const text = "INSERT INTO Users (FirstName, LastName, Nickname, Email, Password, Country, IDUserType) VALUES ($1, $2, $3, $4, $5, $6, $7)";
-    const values = [FirstName, LastName, Nickname, Email, hashed, Country, IDUserType];
+    const values = [FirstName, LastName, Nickname, Email, Password, Country, IDUserType];
     const result = await sql.query(text, values);
-    res.json(result)
+    return result;
 }
 
 export const PutUser = async (req, res) => {

@@ -4,6 +4,6 @@ const router = Router();
 
 router.get("/hminigame", getMinigameHistoryUsers);
 router.get("/hminigame/:id", getMinigameHistoryUser);
-router.post("/hminigame", createMinigameHistory);
+router.post("/hcreateminigame", createMinigameHistory);
 
 export default router;
