@@ -58,10 +58,42 @@ export const sendCode = async (req, res) => {
         };
 
         await transporter.sendMail({
-            from: process.env.EMAIL_USER,
+            from: `"OTMania" <${process.env.EMAIL_USER}>`,
             to: emailNormalized,
-            subject: "OTMania Verification",
-            text: `Your code is: ${code}`
+            subject: "Verify your OTMania account",
+            html: `
+                <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
+                    
+                    <h2 style="color: #CD163F;">Welcome to OTMania</h2>
+                    
+                    <p>Hello,</p>
+                    
+                    <p>Thank you for creating an account. To continue, please use the verification code below:</p>
+                    
+                    <div style="
+                        font-size: 28px;
+                        font-weight: bold;
+                        letter-spacing: 5px;
+                        margin: 20px 0;
+                        color: #14181d;
+                    ">
+                        ${code}
+                    </div>
+                    
+                    <p>This code is required to complete your registration.</p>
+                    
+                    <p style="margin-top: 30px;">
+                        If you did not request this, you can safely ignore this email.
+                    </p>
+                    
+                    <hr style="margin: 30px 0;">
+                    
+                    <p style="font-size: 12px; color: #888;">
+                        © 2026 OTMania. All rights reserved.
+                    </p>
+                
+                </div>
+            `
         });
 
         res.json({ message: "Code sent" });
