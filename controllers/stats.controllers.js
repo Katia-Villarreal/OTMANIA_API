@@ -1,6 +1,6 @@
 import { db_connect } from "../Utils/db.js";
 
-const pool = db_connect(); // 👈 IMPORTANTE
+const pool = db_connect();
 
 
 export async function getDashboardCards() {

@@ -9,6 +9,7 @@ import hminigameRoutes from "./routes/hminigame.routes.js";
 import gamesessionRoutes from "./routes/gamesession.routes.js";
 import authRoutes from "./routes/auth.routes.js";
 import statsRoutes from "./routes/stats.routes.js";
+import resetPasswordRoutes from "./routes/reset.password.routes.js";
 
 
 const app = express();
@@ -19,8 +20,8 @@ app.use(loginRoutes);
 app.use(usersRoutes);
 app.use(hminigameRoutes);
 app.use(gamesessionRoutes);
+app.use("/", resetPasswordRoutes);
 app.use("/", authRoutes);
 app.use("/api/stats", statsRoutes);
-
 
 app.listen(3000, console.log("http://localhost:3000"));

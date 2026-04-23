@@ -44,7 +44,10 @@ export const sendCode = async (req, res) => {
 
         const code = String(Math.floor(100000 + Math.random() * 900000));
 
-        verificationCodes[emailNormalized] = code;
+        verificationCodes[emailNormalized] = {
+            code,
+            expiresAt: Date.now() + 5 * 60 * 1000 // 5 minutes
+        };
 
         pendingUsers[emailNormalized] = {
             firstName,
@@ -115,7 +118,21 @@ export const verifyCode = async (req, res) => {
     const emailNormalized = email.toLowerCase().trim();
 
     try {
-        if (verificationCodes[emailNormalized] !== String(code)) {
+        const storedData = verificationCodes[emailNormalized];
+
+        if (!storedData) {
+            return res.status(400).json({ message: "No code found" });
+        }
+
+        // Expiration check
+        if (Date.now() > storedData.expiresAt) {
+            delete verificationCodes[emailNormalized];
+            delete pendingUsers[emailNormalized];
+            return res.status(400).json({ message: "Code expired" });
+        }
+
+        // Code match check
+        if (storedData.code !== String(code)) {
             return res.status(400).json({ message: "Invalid code" });
         }
 
