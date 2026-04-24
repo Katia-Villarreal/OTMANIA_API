@@ -5,7 +5,14 @@ const router = Router();
 
 router.get("/cards", async (req, res) => {
     try {
-        const data = await statsControllers.getDashboardCards();
+        const { iduser, usertype, companyid } = req.headers;
+
+        const data = await statsControllers.getDashboardCards(
+            iduser,
+            usertype,
+            companyid
+        );
+
         res.json(data);
     } catch (error) {
         console.error(error);
@@ -15,7 +22,14 @@ router.get("/cards", async (req, res) => {
 
 router.get("/performance-by-company", async (req, res) => {
     try {
-        const data = await statsControllers.getPerformanceByCompany();
+        const { iduser, usertype, companyid } = req.headers;
+
+        const data = await statsControllers.getPerformanceByCompany(
+            iduser,
+            usertype,
+            companyid
+        );
+
         res.json(data);
     } catch (error) {
         console.error(error);
@@ -25,7 +39,14 @@ router.get("/performance-by-company", async (req, res) => {
 
 router.get("/task-outcomes", async (req, res) => {
     try {
-        const data = await statsControllers.getTaskOutcomes();
+        const { iduser, usertype, companyid } = req.headers;
+
+        const data = await statsControllers.getTaskOutcomes(
+            iduser,
+            usertype,
+            companyid
+        );
+
         res.json(data);
     } catch (error) {
         console.error(error);
@@ -35,7 +56,14 @@ router.get("/task-outcomes", async (req, res) => {
 
 router.get("/avg-user-scores", async (req, res) => {
     try {
-        const data = await statsControllers.getAvgUserScores();
+        const { iduser, usertype, companyid } = req.headers;
+
+        const data = await statsControllers.getAvgUserScores(
+            iduser,
+            usertype,
+            companyid
+        );
+
         res.json(data);
     } catch (error) {
         console.error(error);
