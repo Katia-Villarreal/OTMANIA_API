@@ -167,7 +167,8 @@ export const verifyCode = async (req, res) => {
 
         console.log("Usuario listo para guardar:", user);
 
-        await PostUser({
+        await PostUser(
+        {
             body: {
                 FirstName: user.firstName,
                 LastName: user.lastName,
@@ -178,7 +179,12 @@ export const verifyCode = async (req, res) => {
                 IDUserType: user.userType,
                 IDCompany: user.company
             }
-        });
+        },
+        {
+            status: () => ({ json: () => {} }),
+            json: () => {}
+        }
+);
 
         delete verificationCodes[emailNormalized];
         delete pendingUsers[emailNormalized];

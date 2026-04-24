@@ -21,7 +21,7 @@ app.use(usersRoutes);
 app.use(hminigameRoutes);
 app.use(gamesessionRoutes);
 app.use("/", resetPasswordRoutes);
-app.use("/", authRoutes);
+app.use("/api/auth", authRoutes);
 app.use("/api/stats", statsRoutes);
 
 app.listen(3000, console.log("http://localhost:3000"));
