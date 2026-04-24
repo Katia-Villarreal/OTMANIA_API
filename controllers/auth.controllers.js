@@ -25,8 +25,10 @@ function getUserType(email, companyExists) {
 
 // Send verification code to user's email
 export const sendCode = async (req, res) => {
-    const { firstName, lastName, email, password, nickname, country } = req.body;
+    const { firstName, lastName, email, password, nickname, country, userType } = req.body;
     const emailNormalized = email.toLowerCase().trim();
+
+    const requestedUserType = Number(userType);
     try {
         if (!email || !password || !firstName || !lastName || !nickname || !country) {
             return res.status(400).json({ message: "Missing fields" });
@@ -34,14 +36,36 @@ export const sendCode = async (req, res) => {
 
         const hashedPassword = hashPassword(password);
 
+        // validar email
         if (!emailNormalized.includes("@")) {
             return res.status(400).json({ message: "Invalid email" });
         }
+
+        // detectar dominio
         const domain = emailNormalized.split("@")[1];
-        const companyExists = domain === "rockwellautomation.com";
+        const isRockwell = domain === "rockwellautomation.com";
 
-        const userType = getUserType(emailNormalized, companyExists);
+        let finalUserType = 3; // default external
+        let companyID = null;
 
+        if (isRockwell) {
+            companyID = 1;
+
+            if (requestedUserType === 1) {
+                finalUserType = 1; // ADMIN
+            } else {
+                finalUserType = 2; // EMPLOYEE
+            }
+
+        } else {
+            if (requestedUserType === 1) {
+                return res.status(403).json({
+                    message: "Admin accounts are only allowed for Rockwell emails"
+                });
+            }
+
+            finalUserType = 3; // EXTERNAL
+        }
         const code = String(Math.floor(100000 + Math.random() * 900000));
 
         verificationCodes[emailNormalized] = {
@@ -56,8 +80,8 @@ export const sendCode = async (req, res) => {
             password: hashedPassword,
             nickname,
             country,
-            userType,
-            company: companyExists ? 1 : null
+            userType: finalUserType,
+            company: companyID
         };
 
         await transporter.sendMail({
