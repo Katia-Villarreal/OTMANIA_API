@@ -1,5 +1,5 @@
-import { db_connect } from "../utils/db.js";
-import { getSalt, hashPassword } from "../utils/hash.js";
+import { db_connect } from "../Utils/db.js";
+import { getSalt, hashPassword } from "../Utils/hash.js";
 
 export const getUsers = async (req, res) => {
     const sql = db_connect();

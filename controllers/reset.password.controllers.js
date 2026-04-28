@@ -1,6 +1,6 @@
 import nodemailer from "nodemailer";
-import { hashPassword } from "../utils/hash.js";
-import { db_connect } from "../utils/db.js";
+import { hashPassword } from "../Utils/hash.js";
+import { db_connect } from "../Utils/db.js";
 
 const verificationCodes = {};
 const passwordResetRequests = {};

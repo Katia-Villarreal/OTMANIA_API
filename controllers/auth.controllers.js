@@ -1,5 +1,5 @@
 import nodemailer from "nodemailer";
-import { hashPassword } from "../utils/hash.js";
+import { hashPassword } from "../Utils/hash.js";
 import { PostUser } from "./users.controllers.js";
 
 const verificationCodes = {};
