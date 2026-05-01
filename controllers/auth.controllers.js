@@ -87,7 +87,6 @@ export const sendCode = async (req, res) => {
             company: companyID
         };
 
-        res.json({ message: "Code sent" });
         transporter.sendMail({
             from: `"OTMania" <${process.env.EMAIL_USER}>`,
             to: emailNormalized,
@@ -125,7 +124,15 @@ export const sendCode = async (req, res) => {
                 
                 </div>
             `
+        })
+        .then(info => {
+            console.log("Email sent:", info.response);
+        })
+        .catch(err => {
+            console.error("Email failed (handled):", err);
         });
+
+        res.json({ message: "Code sent" });
 
     } catch (err) {
         console.error(err);
