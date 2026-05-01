@@ -11,10 +11,7 @@ const transporter = nodemailer.createTransport({
     auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS
-    },
-    port: 587,
-    secure: false,
-    family: 4
+    }
 });
 
 // Determine user type based on email and company domain
@@ -87,7 +84,7 @@ export const sendCode = async (req, res) => {
             company: companyID
         };
 
-        transporter.sendMail({
+        await transporter.sendMail({
             from: `"OTMania" <${process.env.EMAIL_USER}>`,
             to: emailNormalized,
             subject: "Verify your OTMania account",
@@ -124,12 +121,6 @@ export const sendCode = async (req, res) => {
                 
                 </div>
             `
-        })
-        .then(info => {
-            console.log("Email sent:", info.response);
-        })
-        .catch(err => {
-            console.error("Email failed (handled):", err);
         });
 
         res.json({ message: "Code sent" });
