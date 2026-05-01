@@ -87,7 +87,8 @@ export const sendCode = async (req, res) => {
             company: companyID
         };
 
-        await transporter.sendMail({
+        res.json({ message: "Code sent" });
+        transporter.sendMail({
             from: `"OTMania" <${process.env.EMAIL_USER}>`,
             to: emailNormalized,
             subject: "Verify your OTMania account",
@@ -125,8 +126,6 @@ export const sendCode = async (req, res) => {
                 </div>
             `
         });
-
-        res.json({ message: "Code sent" });
 
     } catch (err) {
         console.error(err);
